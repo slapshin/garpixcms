@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django = "==3.2"
+django = "==3.2.18"
 garpix-page = "==2.42.0-rc2"
 garpix-menu = "==1.14.0rc1"
 environs = "*"
