@@ -29,6 +29,8 @@ jobs:
         
       - name: Running Black Formatter
         uses: psf/black@stable
+        with:
+          options: "--check --verbose"
 
       - name: Running Ruff
         uses: jpetrucciani/ruff-check@main
