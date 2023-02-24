@@ -9,7 +9,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Running hadolint
+      - name: Running Hadolint
         uses: hadolint/hadolint-action@v3.1.0
         continue-on-error: true
         with:
@@ -26,7 +26,10 @@ jobs:
         continue-on-error: true
         with:
           args: bash -c "find . -name \*.sh -type f -print0 | xargs -0 -P $(nproc) -r -n1 shellcheck"
+        
+      - name: Running Black Formatter
+        uses: psf/black@stable
 
-      - name: Running ruff
+      - name: Running Ruff
         uses: jpetrucciani/ruff-check@main
         continue-on-error: true
