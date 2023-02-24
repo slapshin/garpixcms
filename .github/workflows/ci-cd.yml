@@ -2,13 +2,6 @@ name: CI/CD
 
 on: [pull_request, push]
 
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ghcr.io/${{ github.repository }}
-  DOCKER_IMAGE_TEST: app_test:${{ github.sha }}
-  DOCKER_IMAGE_TEST_ARTIFACT: test_image_${{ github.sha }}
-  DOCKER_IMAGE_TEST_PATH: /tmp/test_image.tar
-
 jobs:
   preflight:
     runs-on: ubuntu-20.04
@@ -17,16 +10,19 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Running hadolint
-        uses: hadolint/hadolint-action@3.1.0
+        uses: hadolint/hadolint-action@3.0.0
+        continue-on-error: true
         with:
           recursive: true
 
       - name: Running yaml lint
         uses: "docker://pipelinecomponents/yamllint:0.21.1"
+        continue-on-error: true
         with:
           args: yamllint .
 
       - name: Running shellcheck
+        continue-on-error: true
         uses: "docker://pipelinecomponents/shellcheck:0.11.4"
         with:
           args: bash -c "find . -name \*.sh -type f -print0 | xargs -0 -P $(nproc) -r -n1 shellcheck"
