@@ -16,13 +16,17 @@ jobs:
           recursive: true
 
       - name: Running yaml lint
-        uses: "docker://pipelinecomponents/yamllint:0.21.1"
+        uses: docker://pipelinecomponents/yamllint:0.21.1
         continue-on-error: true
         with:
           args: yamllint .
 
       - name: Running shellcheck
+        uses: docker://pipelinecomponents/shellcheck:0.11.4
         continue-on-error: true
-        uses: "docker://pipelinecomponents/shellcheck:0.11.4"
         with:
           args: bash -c "find . -name \*.sh -type f -print0 | xargs -0 -P $(nproc) -r -n1 shellcheck"
+
+      - name: Running ruff
+        uses: jpetrucciani/ruff-check@main
+        continue-on-error: true
